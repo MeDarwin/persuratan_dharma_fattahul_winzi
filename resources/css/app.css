@@ -1,0 +1,3 @@
+table.table.table-hover > tbody > tr >td:first-child {
+    cursor: pointer;
+}
