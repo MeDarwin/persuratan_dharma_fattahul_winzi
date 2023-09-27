@@ -35,8 +35,9 @@ class DashboardController extends Controller
             ->withCount('surat')->orderByDesc('surat_count')
             ->take(10)->get(['username']);
         $jenis_diagram = JenisSurat::has('surat')->withCount('surat')->orderByDesc('surat_count')->take(5)->get(['jenis_surat']);
+        $surat = Surat::query()->orderByDesc(DB::raw('YEAR(tanggal_surat)'))->take(5)->get(['ringkasan', 'file', 'tanggal_surat']);
         $data = [
-            'surat_terbaru'      => Surat::query()->take(5)->get(['ringkasan', 'file', 'tanggal_surat']),
+            'surat_terbaru'      => $surat,
             'surat_diagram_data' => $all_counts,
             'tahun_diagram'      => $years_diagram,
             'user_diagram'       => $surat_diagram->pluck('username'),
@@ -44,7 +45,6 @@ class DashboardController extends Controller
             'jenis_diagram'      => $jenis_diagram->pluck('jenis_surat'),
             'jenis_diagram_data' => $jenis_diagram->pluck('surat_count'),
         ];
-        // return JenisSurat::has('surat')->withCount('surat')->orderByDesc('surat_count')->take(5)->get(); //!todo count on most popular
         return view('dashboard.index', $data);
     }
 }
