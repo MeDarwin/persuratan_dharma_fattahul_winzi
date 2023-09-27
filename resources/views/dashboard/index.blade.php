@@ -76,18 +76,18 @@
 
         //Surat diagram
         new Chart(ctx1, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: <?php echo json_encode($tahun_diagram); ?>,
                 datasets: [{
                     label: 'Statistika surat 5 tahun ke belakang',
-                    data: <?php echo json_encode($surat_data_diagram); ?>,
+                    data: <?php echo json_encode($surat_diagram_data); ?>,
                 }]
             },
-
             options: {
                 scales: {
                     y: {
+                        beginAtZero: true,
                         ticks: {
                             stepSize: 1
                         },
@@ -109,7 +109,7 @@
                 labels: <?php echo json_encode($user_diagram); ?>,
                 datasets: [{
                     label: 'User paling aktif',
-                    data: <?php echo json_encode($user_data_diagram); ?>,
+                    data: <?php echo json_encode($user_diagram_data); ?>,
                 }]
             },
 
@@ -125,6 +125,34 @@
                     tooltip: {
                         callbacks: {
                             label: (context) => `${context.formattedValue} Surat dibuat oleh ${context.label}`,
+                        }
+                    }
+                },
+            }
+        })
+        // Jenis surat diagram
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode($jenis_diagram); ?>,
+                datasets: [{
+                    label: 'Jenis surat paling banyak digunakan',
+                    data: <?php echo json_encode($jenis_diagram_data); ?>
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        },
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `Surat terkirim pada ${context.label} : ${context.formattedValue}`,
                         }
                     }
                 },

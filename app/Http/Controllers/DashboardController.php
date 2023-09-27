@@ -30,18 +30,21 @@ class DashboardController extends Controller
         foreach ($years_diagram as $year) {
             $all_counts[] = Surat::query()->where(DB::raw('YEAR(tanggal_surat)'), $year)->get()->count();
         }
-        $diagram = User::with('surat')
+        $surat_diagram = User::with('surat')
             ->has('surat')
             ->withCount('surat')->orderByDesc('surat_count')
             ->take(10)->get(['username']);
+        $jenis_diagram = JenisSurat::has('surat')->withCount('surat')->orderByDesc('surat_count')->take(5)->get(['jenis_surat']);
         $data = [
             'surat_terbaru'      => Surat::query()->take(5)->get(['ringkasan', 'file', 'tanggal_surat']),
-            'surat_data_diagram' => $all_counts,
+            'surat_diagram_data' => $all_counts,
             'tahun_diagram'      => $years_diagram,
-            'user_diagram'       => $diagram->pluck('username'),
-            'user_data_diagram'  => $diagram->pluck("surat_count"),
+            'user_diagram'       => $surat_diagram->pluck('username'),
+            'user_diagram_data'  => $surat_diagram->pluck("surat_count"),
+            'jenis_diagram'      => $jenis_diagram->pluck('jenis_surat'),
+            'jenis_diagram_data' => $jenis_diagram->pluck('surat_count'),
         ];
-        // return JenisSurat::with('surat')->get(); //!todo count on most popular
+        // return JenisSurat::has('surat')->withCount('surat')->orderByDesc('surat_count')->take(5)->get(); //!todo count on most popular
         return view('dashboard.index', $data);
     }
 }
