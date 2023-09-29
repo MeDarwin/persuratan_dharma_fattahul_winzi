@@ -5,7 +5,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <div class="display-4 mb-4">Tambah Jenis Surat</div>
+                    <div class="display-4 mb-4">Tambah Surat</div>
                     <form enctype="multipart/form-data" method="POST" action="{{ url("surat", ["add"]) }}" class="row row-gap-3 px-2">
                         @csrf
                         <div class="col p-0">
