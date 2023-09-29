@@ -1,8 +1,8 @@
-@extends("layout.layout")
-@section("title", "Manage User")
-@section("main")
+@extends('layout.layout')
+@section('title', 'Manage User')
+@section('main')
     <div class="card">
-        <div class="card-header"><a href="{{ url("user", ["add"]) }}" class="btn btn-success">Tambah User</a></div>
+        <div class="card-header"><a href="{{ url('user', ['add']) }}" class="btn btn-success">Tambah User</a></div>
         <div class="card-body">
             <div class="row">
 
@@ -31,12 +31,12 @@
         </div>
     </div>
 @endsection
-@section("footer")
+@section('footer')
     <script type="module">
         $('.table').DataTable()
 
         $('.table').on('click', 'tbody > tr > td:first-child', function() {
-            let idUser = $(this).parent().attr('idUser')
+            let idUser = $(this).closest('tr').attr('idUser')
             window.location.href = `/user/${idUser}/edit`
         })
         $('.table').on('click', '.btnDelete', function() {

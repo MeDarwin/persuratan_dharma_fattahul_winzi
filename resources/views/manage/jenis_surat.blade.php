@@ -1,8 +1,9 @@
-@extends("layout.layout")
-@section("title", "Manage Jenis Surat")
-@section("main")
+@extends('layout.layout')
+@section('title', 'Manage Jenis Surat')
+@section('main')
     <div class="card">
-        <div class="card-header"><a href="{{ url("surat", ["jenis", "add"]) }}" class="btn btn-success">Tambah Jenis Surat</a></div>
+        <div class="card-header"><a href="{{ url('surat', ['jenis', 'add']) }}" class="btn btn-success">Tambah Jenis Surat</a>
+        </div>
         <div class="card-body">
             <div class="row">
 
@@ -31,11 +32,11 @@
         </div>
     </div>
 @endsection
-@section("footer")
+@section('footer')
     <script type="module">
         $('.table').DataTable()
         $('.table').on('click', 'tbody > tr > td:first-child', function() {
-            let idJS = $(this).parent.attr('idJS')
+            let idJS = $(this).closest('tr').attr('idJS');
             window.location.href = `/surat/jenis/${idJS}/edit`
         })
         $('.table').on('click', '.btnDelete', function() {
