@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\User;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class UserRequest extends FormRequest
 {
@@ -25,6 +28,22 @@ class UserRequest extends FormRequest
             'username' => 'required|regex:/^\S*$/',
             'password' => 'required|regex:/^\S*$/',
             'role'     => 'string'
+        ];
+    }
+    /**
+     * Get the "after" validation callables for the request.
+     */
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                if (User::where('username', $this->username)->count() >= 1) {
+                    $validator->errors()->add(
+                        'username',
+                        "User $this->username already exists"
+                    );
+                }
+            }
         ];
     }
 }

@@ -29,9 +29,11 @@ class UserController extends Controller
     /* --------------------------------- ACTION --------------------------------- */
     public function add(UserRequest $request)
     {
-        return User::query()->create($request->validated())
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+        return User::query()->create($data)
             ? redirect()->to('/user')->with('success', 'User created')
-            : redirect()->back()->with('err', 'User failed to create');
+            : redirect()->to('/user')->with('err', 'User failed to create');
     }
     public function destroy(Request $request)
     {
