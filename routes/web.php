@@ -55,8 +55,12 @@ Route::middleware('auth')->group(
         /* ---------------------------------- SURAT --------------------------------- */
         Route::get('/surat', [SuratController::class, 'index']);
         Route::get('/surat/send', [SuratController::class, 'indexAdd']);
+        Route::get('/surat/{id}/edit', [SuratController::class, 'indexEdit']);
         Route::post('/surat/add', [SuratController::class, 'add']);
         Route::get('/surat/download', [SuratController::class, 'download']);
+        Route::post('/surat/{id}/edit', [SuratController::class, 'update']);
         Route::delete('/surat/{id}/delete', [SuratController::class, 'destroy']);
+        Route::delete('/surat/{id}/file', [SuratController::class, 'deleteFile']);
+        Route::post('/surat/{id}/file', [SuratController::class, 'updateFile']);
     }
 );
