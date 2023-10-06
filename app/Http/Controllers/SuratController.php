@@ -45,6 +45,8 @@ class SuratController extends Controller
     }
     public function download(Request $request)
     {
+        if (!Storage::disk("public")->exists($request->path))
+            return redirect()->back()->with('warn', 'Failed to download, file may not exists');
         return Storage::disk("public")->download("$request->path");
     }
     public function destroy(Request $request)
