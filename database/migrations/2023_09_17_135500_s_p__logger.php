@@ -14,11 +14,10 @@ return new class extends Migration {
         DB::unprepared(
             "CREATE PROCEDURE $this->name (
             Action ENUM('INSERT','UPDATE','DELETE'),
-            NewValue BIGINT UNSIGNED
-            )
+            Activity TEXT)
             MODIFIES SQL DATA
             BEGIN
-                INSERT INTO log_activities VALUES (NULL,Action,NewValue,CURRENT_TIMESTAMP());
+                INSERT INTO log_activities VALUES (NULL,Action,Activity,NULL);
             END;"
         );
     }
@@ -28,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        DB::unprepared("DROP PROCEDURE IF EXISTS $this->name");
+        DB::unprepared("DROP PROCEDURE IF EXISTS $this->name;");
     }
 };

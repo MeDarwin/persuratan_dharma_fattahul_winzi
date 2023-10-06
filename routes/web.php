@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisSuratController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -62,5 +63,7 @@ Route::middleware('auth')->group(
         Route::delete('/surat/{id}/delete', [SuratController::class, 'destroy']);
         Route::delete('/surat/{id}/file', [SuratController::class, 'deleteFile']);
         Route::post('/surat/{id}/file', [SuratController::class, 'updateFile']);
+
+        Route::get('/log', LogController::class);
     }
 );

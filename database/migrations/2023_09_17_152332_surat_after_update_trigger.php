@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     private $name = 't_after_update_surat';
     /**
      * Run the migrations.
@@ -16,8 +15,15 @@ return new class extends Migration
             "CREATE TRIGGER $this->name 
             AFTER UPDATE ON surat FOR EACH ROW
             BEGIN
-                SET @NewVal = new.id;
-                CALL Logger('UPDATE',@NewVal);
+                DECLARE Activity TEXT;
+                SET @File = IFNULL(NEW.file, 'NULL');
+                SELECT log_concat(
+                    NEW.id,
+                    NEW.id_jenis_surat,
+                    NEW.id_user,
+                    NEW.ringkasan,
+                    @FIle) INTO Activity;
+                CALL Logger('UPDATE',Activity);
             END;"
         );
     }
@@ -27,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::unprepared("DROP TRIGGER IF EXISTS $this->name");
+        DB::unprepared("DROP TRIGGER IF EXISTS $this->name;");
     }
 };

@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::create('log_activities', function (Blueprint $table) {
             $table->id();
-            $table->enum('action', ['INSERT', 'UPDATE', 'DELETE']);
-            $table->unsignedBigInteger('on_key');
-            $table->dateTime('time');
+            $table->enum('action', ['INSERT', 'UPDATE', 'DELETE'])->nullable(false);
+            $table->text('activity')->nullable(false);
+            $table->timestamp('activity_time')->nullable(false)->useCurrent();
         });
     }
 

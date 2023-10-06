@@ -15,8 +15,15 @@ return new class extends Migration {
             "CREATE TRIGGER $this->name 
             AFTER INSERT ON surat FOR EACH ROW
             BEGIN
-                SET @NewVal = new.id;
-                CALL Logger('INSERT',@NewVal);
+                DECLARE Activity TEXT;
+                SET @File = IFNULL(NEW.file, 'NULL');
+                SELECT log_concat(
+                    NEW.id,
+                    NEW.id_jenis_surat,
+                    NEW.id_user,
+                    NEW.ringkasan,
+                    @FIle) INTO Activity;
+                CALL Logger('INSERT',Activity);
             END;"
         );
     }
@@ -26,6 +33,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        DB::unprepared("DROP TRIGGER IF EXISTS $this->name");
+        DB::unprepared("DROP TRIGGER IF EXISTS $this->name;");
     }
 };

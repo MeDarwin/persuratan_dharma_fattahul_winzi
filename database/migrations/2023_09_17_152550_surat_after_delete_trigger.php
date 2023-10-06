@@ -15,11 +15,15 @@ return new class extends Migration {
             "CREATE TRIGGER $this->name 
             AFTER DELETE ON surat FOR EACH ROW
             BEGIN
-                SET @OldVal = old.id;
-                DELETE FROM log_activities 
-                WHERE on_key = @OldVal
-                AND NOT action = 'DELETE';
-                CALL Logger('DELETE',@OldVal);
+                DECLARE Activity TEXT;
+                SET @File = IFNULL(OLD.file, 'NULL');
+                SELECT log_concat(
+                    OLD.id,
+                    OLD.id_jenis_surat,
+                    OLD.id_user,
+                    OLD.ringkasan,
+                    @FIle) INTO Activity;
+                CALL Logger('DELETE',Activity);
             END;"
         );
     }
@@ -29,6 +33,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        DB::unprepared("DROP TRIGGER IF EXISTS $this->name");
+        DB::unprepared("DROP TRIGGER IF EXISTS $this->name;");
     }
 };

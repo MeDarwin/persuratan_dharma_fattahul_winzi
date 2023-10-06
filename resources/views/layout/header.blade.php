@@ -23,6 +23,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("/surat") }}">Transaksi surat</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("/log") }}">Log activities</a>
+                    </li>
                 </ul>
                 <div class="row align-items-center column-gap-5">
                     <div class="col-auto text-white">
