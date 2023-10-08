@@ -1,5 +1,6 @@
 <head>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <title>Login Lettertantica</title>
 </head>
 <div class="container">
     <div class="row">

@@ -1,5 +1,5 @@
 @extends("layout.layout")
-@section("title", "Add Jenis Surat")
+@section("title", "Add Surat")
 @section("main")
     <div class="row">
         <div class="col">
