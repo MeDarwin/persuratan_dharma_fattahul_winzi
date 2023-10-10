@@ -19,7 +19,7 @@ class SuratController extends Controller
     public function indexEdit(Request $request)
     {
         $data = [
-            'surat'  => Surat::with(['jenis', 'user'])->find($request->id),
+            'surat'  => Surat::with(['jenis', 'user'])->findOrFail($request->id),
             'all_js' => JenisSurat::all()
         ];
         return view('manage.edit.surat', $data);
@@ -52,11 +52,11 @@ class SuratController extends Controller
     public function destroy(Request $request)
     {
         $file_deletion = '';
-        if ($curr_surat = Surat::query()->find($request->id, 'file'))
+        if ($curr_surat = Surat::query()->findOrFail($request->id, 'file'))
             $path = $curr_surat->file;
         if (!empty($path) && Storage::disk("public")->exists($path))
             Storage::disk("public")->delete($path) ? $file_deletion = 'with file deleted' : $file_deletion = 'with file undeleted';
-        return Surat::query()->find($request->id)->delete()
+        return Surat::query()->findOrFail($request->id)->delete()
             ? $request->session()->flash('success', "Surat deleted $file_deletion")
             : $request->session()->flash('err', 'Surat failed to delete');
     }
@@ -64,7 +64,7 @@ class SuratController extends Controller
     {
         // DELETE OLD FILE
         $request->validate(['file' => 'required|mimes:pdf']);
-        $curr_surat = Surat::find($request->id);
+        $curr_surat = Surat::findOrFail($request->id);
         $old_path = $curr_surat->file;
         if (!empty($old_path) && Storage::disk("public")->exists($old_path)) {
             Storage::disk("public")->delete($old_path);
@@ -78,7 +78,7 @@ class SuratController extends Controller
     }
     public function deleteFile(Request $request)
     {
-        $curr_surat = Surat::find($request->id);
+        $curr_surat = Surat::findOrFail($request->id);
         $path = $curr_surat->file;
         $curr_surat->file = null;
         $delete_path = $curr_surat->save();

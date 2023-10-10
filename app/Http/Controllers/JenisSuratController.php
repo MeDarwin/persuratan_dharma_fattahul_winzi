@@ -15,7 +15,7 @@ class JenisSuratController extends Controller
     }
     public function indexEdit(Request $request)
     {
-        $data = ['js' => JenisSurat::query()->find($request['id'])];
+        $data = ['js' => JenisSurat::query()->findOrFail($request->id)];
         return view('manage.edit.jenis_surat', $data);
     }
     public function index()

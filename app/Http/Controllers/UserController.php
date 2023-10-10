@@ -22,7 +22,7 @@ class UserController extends Controller
     }
     public function indexEdit(Request $request)
     {
-        $data = ['user' => User::find($request['id'])];
+        $data = ['user' => User::findOrFail($request['id'])];
         return view('manage.edit.user', $data);
     }
 
